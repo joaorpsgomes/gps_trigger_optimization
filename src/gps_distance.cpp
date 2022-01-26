@@ -2,6 +2,9 @@
 #include <iostream>
 #include "std_msgs/String.h"
 #include "sensor_msgs/NavSatFix.h"
+#include "rtabmap_ros/Info.h"
+
+
 
 long double distance(long double lat1, long double long1,
                      long double lat2, long double long2);
@@ -11,7 +14,7 @@ long double toRadians(const long double degree);
 
 
 
-void chatterCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
+void gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
 {
 static long double dist=0;
 static long double lat_prev=0;
@@ -25,20 +28,25 @@ static long double long_prev=0;
   }else{
     dist+=distance(lat_prev,long_prev,lat,longi);
   }
-  std::cout << "GPS: " << lat << " " << longi << " " << msg->altitude << " \n" << std::flush;
-  std::cout << "Prev: " << lat_prev << " "<< long_prev << "\nDist: " << dist*1000 << std::flush;  
-  //printf("GPS: %g %g %g\n",lat, longi, msg->altitude);
-  //printf("Prev:%g %g \n Dist: %g\n",lat_prev, long_prev, dist);
-
+  //std::cout << "GPS: " << lat << " " << longi << " " << msg->altitude << " \n" << std::flush;
+  //std::cout << "Prev: " << lat_prev << " "<< long_prev << "\nDist: " << dist*1000 << std::flush;  
+  
+  std::cout << "Dist: " << dist*1000 << std::flush;
   lat_prev=lat;
   long_prev=longi;
+}
+
+void rtabmap_infoCallback(const rtabmap_ros::Info::ConstPtr& msg)
+{
+  std::cout<<"Loop closure heard : " << msg->loopClosureId<< "\n"<<std::flush;
 }
 
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "gps_distance");
   ros::NodeHandle n;
-  ros::Subscriber sub = n.subscribe("/ublox_gps/fix", 1000, chatterCallback);
+  ros::Subscriber sub = n.subscribe("/ublox_gps/fix", 1000, gpsCallback);
+  ros::Subscriber sub2 = n.subscribe("/rtabmap/info", 1000, rtabmap_infoCallback);
   ros::spin();
   return 0;
 }
