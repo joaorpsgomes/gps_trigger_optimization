@@ -13,13 +13,18 @@ find_package(catkin REQUIRED COMPONENTS
   sensor_msgs
   std_msgs
   message_generation
+  geometry_msgs
 )
+
+
+#### Costume messages ####
 
 add_message_files(
    FILES
    Info.msg
    Link.msg
    MapGraph.msg
+   GPS_optimize.msg
 )
 
 generate_messages(

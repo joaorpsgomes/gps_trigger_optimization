@@ -92,5 +92,7 @@ void GPS_handler::rtabmap_infoCallback(const rtabmap_ros::Info::ConstPtr& msg)
 GPS_handler::GPS_handler(ros::NodeHandle *n_){
     sub_gps_ = n_->subscribe("/ublox_gps/fix", 1000, &GPS_handler::gpsCallback,this);
     sub_loop_closure_id_ = n_->subscribe("/rtabmap/info", 1000, &GPS_handler::rtabmap_infoCallback,this);
+    pub_= n_->advertise<gps_optimize_tool::GPS_optimize>("/gps_optimize_pose",10);
     std::cout << "Object created" << std::endl;
 }
+
