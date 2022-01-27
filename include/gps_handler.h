@@ -27,6 +27,11 @@ class GPS_handler{
         ros::Publisher pub_;
         ros::Subscriber sub_gps_;
         ros::Subscriber sub_loop_closure_id_;
+        long double dist_;
+        double x_;
+        double y_;
+        double z_;
+
 
     public:
         GPS_handler(ros::NodeHandle *n_);
