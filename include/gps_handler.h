@@ -31,6 +31,7 @@ class GPS_handler{
         double x_;
         double y_;
         double z_;
+        long double threshold_; // in meters
 
 
     public:

@@ -1,3 +1,4 @@
 <launch>
+ <param name="threshold" type="double" value="21" />
     <node pkg="gps_optimize_tool" type="gps_distance" name ="GPS_optimize_trigger" output="screen"/>
 </launch>
