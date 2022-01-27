@@ -3,7 +3,7 @@
 
 
 
-long double distance(long double lat1, long double long1,
+long double distance_simple(long double lat1, long double long1,
                      long double lat2, long double long2)
 {
     lat1 = toRadians(lat1);
@@ -60,7 +60,7 @@ static long double long_prev=0;
   if(lat_prev==0 && long_prev==0){
     dist_=0;
   }else{
-    dist_+=distance(lat_prev,long_prev,lat,longi);
+    dist_+=distance_simple(lat_prev,long_prev,lat,longi);
   }
   //std::cout << "GPS: " << lat << " " << longi << " " << msg->altitude << " \n" << std::flush;
   //std::cout << "Prev: " << lat_prev << " "<< long_prev << "\nDist: " << dist*1000 << std::flush;  

@@ -10,7 +10,7 @@
 
 
 
-long double distance(long double lat1, long double long1,
+long double distance_simple(long double lat1, long double long1,
                      long double lat2, long double long2);
 
 long double toRadians(const long double degree);
