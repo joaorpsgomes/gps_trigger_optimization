@@ -1,6 +1,7 @@
 
 #include <math.h>
 #include "ros/ros.h"
+#include "GPS2plane.h"
 //// MSG ////
 #include "std_msgs/String.h"
 #include "sensor_msgs/NavSatFix.h"
@@ -15,9 +16,11 @@ long double distance_simple(long double lat1, long double long1,
 
 long double toRadians(const long double degree);
 
-
+using namespace std;
 
 //////////////////////// Callbacks ////////////////////////
+
+
 
 
 
@@ -32,6 +35,8 @@ class GPS_handler{
 		double y_;
 		double z_;
 		long double threshold_; // in meters
+		GPS2plane gps2plane_;
+		bool start_;
 
 
 	public:
@@ -41,24 +46,3 @@ class GPS_handler{
 
 };
 
-class GPS2plane{
-	private:
-		double r_ox_;
-		double r_oy_;
-		double r_oz_;
-		double e_xx_;
-		double e_xy_;
-		double e_xz_;
-		double e_yx_;
-		double e_yy_;
-		double e_yz_;
-		vector<double> x_;
-		vector<double> y_;
-
-	public:
-		GPS2plane(double latitude, double longitude, double altitude);
-		void gps2cart(double *x, double *y, double *z, double latitude, double longitude, double altitude);
-		vector<double> get_x_(){return x_;}
-		vector<double> get_y_(){return y_;}
-		void set_point(double x, double y);
-};

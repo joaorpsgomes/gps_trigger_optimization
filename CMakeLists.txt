@@ -48,7 +48,9 @@ catkin_package(
 add_executable(gps_distance 
                src/gps_distance.cpp
                src/gps_handler.cpp
+               src/GPS2plane.cpp
                include/gps_handler.h
+               include/GPS2plane.h
                )
 
 include_directories(
