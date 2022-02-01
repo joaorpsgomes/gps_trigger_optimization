@@ -62,17 +62,23 @@ int main(){
     rtabmap::Transform poses_aux = rtabmap::Transform(0,0,0,0,0,0,1);
     poses_vector.push_back(poses_aux);
 
-    poses_aux = rtabmap::Transform(1,0.2,0,0,0,0,1);
+    poses_aux = rtabmap::Transform(0.9,-0.5,0,0,0,0,1);
     poses_vector.push_back(poses_aux);
 
-    poses_aux = rtabmap::Transform(2,0.6,0,0,0,0,1);
+    poses_aux = rtabmap::Transform(1.5,-0.1,0,0,0,0,1);
     poses_vector.push_back(poses_aux);
 
-    poses_aux = rtabmap::Transform(3,0.2,0,0,0,0,1);
+    poses_aux = rtabmap::Transform(2.7,0.2,0,0,0,0,1);
     poses_vector.push_back(poses_aux);
 
-    //poses_aux = rtabmap::Transform(-0.6,0.4,0,0,0,0,1);
-    //poses_vector.push_back(poses_aux);
+    poses_aux = rtabmap::Transform(2.9,0,0,0,0,0,1);
+    poses_vector.push_back(poses_aux);
+
+    poses_aux = rtabmap::Transform(4,0,0,0,0,0,1);
+    poses_vector.push_back(poses_aux);
+
+    poses_aux = rtabmap::Transform(3.9,-1.1,0,0,0,0,1);
+    poses_vector.push_back(poses_aux);
 
     ////////////////////////
 
@@ -90,31 +96,53 @@ int main(){
 
 
 
-    ////// Criar Edges //////
-    rtabmap::Transform transformation=rtabmap::Transform(1,0.2,0,0,0,0,1);
+    ////// Edges //////
+    rtabmap::Transform transformation=rtabmap::Transform(0.9,-0.5,0,0,0,0,1);
     rtabmap::Link link = rtabmap::Link(1,2,type,transformation);
     edges_vector.push_back(link);
 
-    transformation=rtabmap::Transform(1,0.1,0,0,0,0,1);
+    transformation=rtabmap::Transform(0.6,0.4,0,0,0,0,1);
     link = rtabmap::Link(2,3,type,transformation);
     edges_vector.push_back(link);
     
-    transformation=rtabmap::Transform(1,-0.1,0,0,0,0,1);
+    transformation=rtabmap::Transform(1.2,0.3,0,0,0,0,1);
     link = rtabmap::Link(3,4,type,transformation);
     edges_vector.push_back(link);
 
-    type=rtabmap::Link::Type::kPosePrior;
-    transformation=rtabmap::Transform(3,0,0,0,0,0,1);
-    link = rtabmap::Link(4,4,type,transformation);
+    transformation=rtabmap::Transform(0.2,-0.2,0,0,0,0,1);
+    link = rtabmap::Link(4,5,type,transformation);
     edges_vector.push_back(link);
 
-    transformation=rtabmap::Transform(1,0,0,0,0,0,1);
-    link = rtabmap::Link(2,2,type,transformation);
+    transformation=rtabmap::Transform(1.1,0,0,0,0,0,1);
+    link = rtabmap::Link(5,6,type,transformation);
     edges_vector.push_back(link);
+
+    transformation=rtabmap::Transform(-0.1,-1.1,0,0,0,0,1);
+    link = rtabmap::Link(6,7,type,transformation);
+    edges_vector.push_back(link);
+
+
+    // GPS links //
+
+
+
+    type=rtabmap::Link::Type::kPosePrior;
+
+
 
     transformation=rtabmap::Transform(0,0,0,0,0,0,1);
     link = rtabmap::Link(1,1,type,transformation);
     edges_vector.push_back(link);
+
+    transformation=rtabmap::Transform(3,0,0,0,0,0,1);
+    link = rtabmap::Link(4,4,type,transformation);
+    edges_vector.push_back(link);
+
+    transformation=rtabmap::Transform(4,-0.8,0,0,0,0,1);
+    link = rtabmap::Link(7,7,type,transformation);
+    edges_vector.push_back(link);
+
+    
 
 
     
@@ -162,7 +190,7 @@ int main(){
     //assert(poses_vector.size()==edges_vector.size()); // with no loop
     
 
-    for(int i=0; i<poses_vector.size();i++){
+    for(int i=0; i<edges_vector.size();i++){
 
         
         link_aux.first=i+1;
@@ -177,7 +205,9 @@ int main(){
                                                        );
 
         edgeConstraints.insert(link_aux);
+    }
 
+    for(int i=0; i<poses_vector.size();i++){
         pose_aux.first=i+1;
         pose_aux.second=poses_vector.at(i);
         printf("Pose %d: (%1.3f,%1.3f,%1.3f)\n\n",pose_aux.first
@@ -240,12 +270,12 @@ void display_poses(std::map<int, rtabmap::Transform> poses,
                    std::map<int, rtabmap::Transform> poses_optimized){
 
 
-    unsigned int w = 800;
-    unsigned int h = 800;
+    unsigned int w = 1000;
+    unsigned int h = 1000;
     
     const unsigned char blue[] = {0,0,255};
     const unsigned char red[] = {255,0,0};
-    const int scale = 100;
+    const int scale = 120;
     cimg_library::CImg<unsigned char> bg(w,h,1,3,255);
     for (auto& t : poses){
         bg.draw_circle((t.second.x()*scale)+w/2,h/2-(t.second.y()*scale),w/30,blue);
