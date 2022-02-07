@@ -88,7 +88,7 @@ void GPS_handler::rtabmap_infoCallback(const rtabmap_ros::Info::ConstPtr& msg)
 
 	if(msg->loopClosureId==0){   // Loop closure not detected
 		
-		if(dist_>20.0){
+		if(dist_>threshold_){
 
 			///// Fill header /////
 			
