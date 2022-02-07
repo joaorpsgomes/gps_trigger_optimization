@@ -98,7 +98,7 @@ void GPS_handler::rtabmap_infoCallback(const rtabmap_ros::Info::ConstPtr& msg)
 
 			///// Fill loopClosureId /////
 
-			msg_p.loopClosureId=msg->loopClosureId;
+			msg_p.loopClosureId=msg->header.seq+1;
 
 			///// Fill gps_pose /////
 
