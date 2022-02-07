@@ -75,7 +75,8 @@ void GPS_handler::gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
 		x_prev=x;
 		y_prev=y;
 	}
-	
+	lat_prev=lat;
+	long_prev=longi;
 	std::cout << "Dist: " << dist_ << "\n" <<std::flush;
 }
 
