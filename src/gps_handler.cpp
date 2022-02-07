@@ -59,21 +59,26 @@ void GPS_handler::gpsCallback(const sensor_msgs::NavSatFix::ConstPtr& msg)
 	long double lat=static_cast<double>(msg->latitude);
 	long double longi=static_cast<double>(msg->longitude);
 	long double alt=static_cast<double>(msg->altitude);
-
+	
+	
+	ROS_INFO("Covarance: %g",msg->position_covariance[8]);
 	if(start_==false){	//First gps_callback
 		gps2plane_=GPS2plane((double)lat,(double)longi,(double)alt);
-
-		start_=true;
-	}
-	
-	if(lat_prev==0 && long_prev==0){
 		dist_=0;
-
-	}else{
+		start_=true;
+		covariance.push_back(static_cast<double>(msg->position_covariance[0]));
+		covariance.push_back(static_cast<double>(msg->position_covariance[4]));
+		covariance.push_back(static_cast<double>(msg->position_covariance[8]));
+	}
+	else{
+		covariance[0]=static_cast<double>(msg->position_covariance[0]);
+		covariance[1]=static_cast<double>(msg->position_covariance[4]);
+		covariance[2]=static_cast<double>(msg->position_covariance[8]);
 		gps2plane_.gps2planeCoordinates(&x,&y,lat,longi,alt);
 		dist_+=sqrt(pow(x-x_prev,2)+pow(y-y_prev,2));
 		x_prev=x;
 		y_prev=y;
+		
 	}
 	lat_prev=lat;
 	long_prev=longi;
@@ -105,6 +110,13 @@ void GPS_handler::rtabmap_infoCallback(const rtabmap_ros::Info::ConstPtr& msg)
 			msg_p.gps_pose.position.x=x_;
 			msg_p.gps_pose.position.y=y_;
 			msg_p.gps_pose.position.z=z_;
+
+
+			///// Fill covariance /////
+
+			msg_p.covariance[0]=covariance.at(0);
+			msg_p.covariance[1]=covariance.at(1);
+			msg_p.covariance[2]=covariance.at(2);
 
 
 			///// Publish message /////

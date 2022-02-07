@@ -34,6 +34,7 @@ class GPS_handler{
 		double x_;
 		double y_;
 		double z_;
+		vector<double> covariance;
 		long double threshold_; // in meters
 		GPS2plane gps2plane_;
 		bool start_;
